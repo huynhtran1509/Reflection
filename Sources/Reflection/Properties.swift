@@ -67,9 +67,14 @@ func fetchAndSaveProperties<T : NominalType>(nominalType: T, hashedType: HashedT
 
 private func propertiesForNominalType<T : NominalType>(_ type: T) throws -> [Property.Description] {
     guard type.nominalTypeDescriptor.numberOfFields != 0 else { return [] }
-    guard let fieldTypes = type.fieldTypes, let fieldOffsets = type.fieldOffsets else {
+
+    let fieldTypes = type.fieldTypes
+    let fieldOffsets = type.fieldOffsets
+
+    guard fieldTypes.count != 0, fieldOffsets.count != 0 else {
         throw ReflectionError.unexpected
     }
+
     let fieldNames = type.nominalTypeDescriptor.fieldNames
     return (0..<type.nominalTypeDescriptor.numberOfFields).map { i in
         return Property.Description(key: fieldNames[i], type: fieldTypes[i], offset: fieldOffsets[i])

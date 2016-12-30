@@ -18,6 +18,16 @@ extension Metadata {
             return nominalTypeDescriptor.fieldNames
         }
 
+        public var caseTypes: [Any.Type] {
+            guard numberOfPayloadCases > 0 else { return [] }
+            guard let function = nominalTypeDescriptor.fieldTypesAccessor else { return [] }
+
+            let typePointers = function(UnsafePointer<Int>(pointer))
+            let buffer = UnsafeBufferPointer<UnsafePointer<Int>>(start: typePointers, count: numberOfPayloadCases)
+
+            return buffer.map({ unsafeBitCast($0, to: Any.Type.self) })
+        }
+
         public var pointer: UnsafePointer<_Metadata._Enum>
 
         public var nominalTypeDescriptorOffsetLocation: Int {
