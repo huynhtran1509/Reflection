@@ -27,6 +27,12 @@ extension Metadata {
             return Int(pointer.pointee.numberOfArguments)
         }
 
+        public var returnType: Any.Type {
+            guard let meta = pointer.pointee.returnVector else { return Never.self }
+
+            return unsafeBitCast(meta, to: Any.Type.self)
+        }
+
         public var pointer: UnsafePointer<_Metadata._Function>
 
         public var nominalTypeDescriptorOffsetLocation: Int {
