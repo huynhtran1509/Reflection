@@ -18,7 +18,6 @@ public extension Metadata {
                 types.append(unsafeBitCast(meta, to: Any.Type.self))
             }
 
-
             return types
         }
 

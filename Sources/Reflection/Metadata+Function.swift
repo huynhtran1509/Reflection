@@ -1,10 +1,6 @@
 extension Metadata {
-    public struct Function : NominalType {
+    public struct Function : MetadataType {
         public static let kind: Kind? = .function
-
-        public var _kind: Int {
-            return pointer.pointee.kind
-        }
 
         public var argumentTypes: [Any.Type] {
             var argTypes = [Any.Type]()
@@ -34,10 +30,6 @@ extension Metadata {
         }
 
         public var pointer: UnsafePointer<_Metadata._Function>
-
-        public var nominalTypeDescriptorOffsetLocation: Int {
-            return -3
-        }
     }
 }
 
