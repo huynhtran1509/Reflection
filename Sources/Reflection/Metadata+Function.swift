@@ -1,43 +1,37 @@
 extension Metadata {
     public struct Function : MetadataType {
         public static let kind: Kind? = .function
+        public var pointer: UnsafePointer<Int>
 
-        public var argumentTypes: [Any.Type] {
-            var argTypes = [Any.Type]()
+        public var argumentTypes: [FunctionArgument] {
+            var argTypes = [FunctionArgument]()
 
             for i in 0..<numberOfArguments {
-                guard let meta = pointer.pointee.argumentsVector?.advanced(by: i) else { break }
+                let argumentsVectorStart = pointer[3 + i]
+                let isInout = argumentsVectorStart & 1 == 1
+                let pointerToMetadata = isInout ? argumentsVectorStart - 1 : argumentsVectorStart
 
-                switch Metadata.Kind(flag: meta.pointee) {
-                case .tuple:
-                    argTypes += Metadata.Tuple(pointer: meta).elementTypes
-                default:
-                    argTypes.append(unsafeBitCast(meta, to: Any.Type.self))
-                }
+                guard let argumentPointer = UnsafePointer<Int>(bitPattern: pointerToMetadata) else { continue }
+
+                argTypes.append(FunctionArgument(isInout: isInout, type: unsafeBitCast(argumentPointer, to: Any.Type.self)))
             }
 
             return argTypes
         }
 
         public var numberOfArguments: Int {
-            return Int(pointer.pointee.numberOfArguments)
+            return Int(pointer[1])
         }
 
         public var returnType: Any.Type {
-            guard let meta = pointer.pointee.returnVector else { return Never.self }
+            guard let meta = UnsafePointer<Int>(bitPattern: pointer[2]) else { return Never.self }
 
             return unsafeBitCast(meta, to: Any.Type.self)
         }
-
-        public var pointer: UnsafePointer<_Metadata._Function>
     }
 }
 
-public extension _Metadata {
-    public struct _Function {
-        public var kind: Int
-        public var numberOfArguments: Int
-        var returnVector: UnsafePointer<Int>?
-        var argumentsVector: UnsafePointer<Int>?
-    }
+public struct FunctionArgument {
+    public let isInout: Bool
+    public let type: Any.Type
 }

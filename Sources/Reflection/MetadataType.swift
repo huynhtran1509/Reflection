@@ -17,4 +17,8 @@ public extension MetadataType {
             return nil
         }
     }
+
+    public init?(instance: Any) {
+        self.init(type: type(of: instance))
+    }
 }
