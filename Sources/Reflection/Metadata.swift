@@ -12,6 +12,4 @@ public struct _Metadata {
     }
 }
 
-var is64BitPlatform: Bool {
-    return sizeof(Int.self) == sizeof(Int64.self)
-}
+let is64BitPlatform = sizeof(Int.self) == sizeof(Int64.self)
