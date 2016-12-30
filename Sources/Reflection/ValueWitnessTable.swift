@@ -1,6 +1,6 @@
 // https://github.com/apple/swift/blob/master/lib/IRGen/ValueWitness.h
-struct ValueWitnessTable : PointerType {
-    var pointer: UnsafePointer<_ValueWitnessTable>
+public struct ValueWitnessTable : PointerType {
+    public var pointer: UnsafePointer<_ValueWitnessTable>
 
     private var alignmentMask: Int {
         return 0x0FFFF
@@ -19,7 +19,7 @@ struct ValueWitnessTable : PointerType {
     }
 }
 
-struct _ValueWitnessTable {
+public struct _ValueWitnessTable {
     let destroyBuffer: Int
     let initializeBufferWithCopyOfBuffer: Int
     let projectBuffer: Int

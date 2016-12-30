@@ -1,8 +1,8 @@
 // https://github.com/apple/swift/blob/swift-3.0-branch/include/swift/ABI/MetadataKind.def
 extension Metadata {
-    static let kind: Kind? = nil
+    public static let kind: Kind? = nil
 
-    enum Kind {
+    public enum Kind {
         case `struct`
         case `enum`
         case optional

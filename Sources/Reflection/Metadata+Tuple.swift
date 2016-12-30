@@ -1,8 +1,8 @@
-extension Metadata {
-    struct Tuple : MetadataType {
-        static let kind: Kind? = .tuple
-        var pointer: UnsafePointer<Int>
-        var labels: [String?] {
+public extension Metadata {
+    public struct Tuple : MetadataType {
+        public static let kind: Kind? = .tuple
+        public var pointer: UnsafePointer<Int>
+        public var labels: [String?] {
             guard var pointer = UnsafePointer<CChar>(bitPattern: pointer[2]) else { return [] }
             var labels = [String?]()
             var string = ""

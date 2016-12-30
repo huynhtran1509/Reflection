@@ -1,4 +1,4 @@
-protocol PointerType : Equatable {
+public protocol PointerType : Equatable {
     associatedtype Pointee
     var pointer: UnsafePointer<Pointee> { get set }
 }
@@ -12,6 +12,6 @@ extension PointerType {
     }
 }
 
-func ==<T : PointerType>(lhs: T, rhs: T) -> Bool {
+public func ==<T : PointerType>(lhs: T, rhs: T) -> Bool {
     return lhs.pointer == rhs.pointer
 }

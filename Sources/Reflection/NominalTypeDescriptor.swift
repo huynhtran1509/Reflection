@@ -1,26 +1,26 @@
-struct NominalTypeDescriptor : PointerType {
-    var pointer: UnsafePointer<_NominalTypeDescriptor>
+public struct NominalTypeDescriptor : PointerType {
+    public var pointer: UnsafePointer<_NominalTypeDescriptor>
 
-    var mangledName: String {
+    public var mangledName: String {
         return String(cString: relativePointer(base: pointer, offset: pointer.pointee.mangledName) as UnsafePointer<CChar>)
     }
 
-    var numberOfFields: Int {
+    public var numberOfFields: Int {
         return Int(pointer.pointee.numberOfFields)
     }
 
-    var fieldOffsetVector: Int {
+    public var fieldOffsetVector: Int {
         return Int(pointer.pointee.fieldOffsetVector)
     }
 
-    var fieldNames: [String] {
+    public var fieldNames: [String] {
         let p = UnsafePointer<Int32>(self.pointer)
         return Array(utf8Strings: relativePointer(base: p.advanced(by: 3), offset: self.pointer.pointee.fieldNames))
     }
 
-    typealias FieldsTypeAccessor = @convention(c) (UnsafePointer<Int>) -> UnsafePointer<UnsafePointer<Int>>
+    public typealias FieldsTypeAccessor = @convention(c) (UnsafePointer<Int>) -> UnsafePointer<UnsafePointer<Int>>
 
-    var fieldTypesAccessor: FieldsTypeAccessor? {
+    public var fieldTypesAccessor: FieldsTypeAccessor? {
         let offset = pointer.pointee.fieldTypesAccessor
         guard offset != 0 else { return nil }
         let p = UnsafePointer<Int32>(self.pointer)
@@ -29,7 +29,7 @@ struct NominalTypeDescriptor : PointerType {
     }
 }
 
-struct _NominalTypeDescriptor {
+public struct _NominalTypeDescriptor {
     var mangledName: Int32
     var numberOfFields: Int32
     var fieldOffsetVector: Int32

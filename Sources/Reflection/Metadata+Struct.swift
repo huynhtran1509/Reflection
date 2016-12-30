@@ -1,17 +1,17 @@
 extension Metadata {
-    struct Struct : NominalType {
-        static let kind: Kind? = .struct
-        var pointer: UnsafePointer<_Metadata._Struct>
-        var nominalTypeDescriptorOffsetLocation: Int {
+    public struct Struct : NominalType {
+        public static let kind: Kind? = .struct
+        public var pointer: UnsafePointer<_Metadata._Struct>
+        public var nominalTypeDescriptorOffsetLocation: Int {
             return 1
         }
     }
 }
 
-extension _Metadata {
-    struct _Struct {
-        var kind: Int
-        var nominalTypeDescriptorOffset: Int
-        var parent: Metadata?
+public extension _Metadata {
+    public struct _Struct {
+        public var kind: Int
+        public var nominalTypeDescriptorOffset: Int
+        public var parent: Metadata?
     }
 }
