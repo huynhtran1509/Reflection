@@ -29,6 +29,5 @@ extension Metadata {
 public extension _Metadata {
     public struct _Enum {
         public var kind: Int
-        public var parent: Metadata?
     }
 }

@@ -6,7 +6,11 @@ public struct Metadata : MetadataType {
     }
 }
 
-public struct _Metadata {}
+public struct _Metadata {
+    struct __Metadata {
+        let kind: Int
+    }
+}
 
 var is64BitPlatform: Bool {
     return sizeof(Int.self) == sizeof(Int64.self)
