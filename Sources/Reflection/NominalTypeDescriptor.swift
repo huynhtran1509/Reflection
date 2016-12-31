@@ -14,8 +14,24 @@ public struct NominalTypeDescriptor : PointerType {
     }
 
     public var fieldNames: [String] {
-        let p = UnsafePointer<Int32>(self.pointer)
+        let p = UnsafePointer<Int32>(pointer)
         return Array(utf8Strings: relativePointer(base: p.advanced(by: 3), offset: self.pointer.pointee.fieldNames))
+    }
+
+    public var genericVectorOffset: Int {
+        return Int(UnsafePointer<Int32>(pointer)[7])
+    }
+
+    public var numGenericParamsIncludingAssociated: Int {
+        return Int(UnsafePointer<Int32>(pointer)[8])
+    }
+
+    public var numGenericParamsExcludingAssociated: Int {
+        return Int(UnsafePointer<Int32>(pointer)[9])
+    }
+
+    public func numGenericWitnessTables(forOffset offset: Int) -> Int {
+        return Int(UnsafePointer<Int32>(pointer)[10 + offset])
     }
 
     public typealias FieldsTypeAccessor = @convention(c) (UnsafePointer<Int>) -> UnsafePointer<UnsafePointer<Int>>

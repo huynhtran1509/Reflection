@@ -32,7 +32,7 @@ extension Metadata {
             guard numberOfPayloadCases > 0 else { return [] }
             guard let function = nominalTypeDescriptor.fieldTypesAccessor else { return [] }
 
-            let typePointers = function(UnsafePointer<Int>(pointer))
+            let typePointers = function(pointer)
             let buffer = UnsafeBufferPointer<UnsafePointer<Int>>(start: typePointers, count: numberOfPayloadCases)
 
             return buffer.map({pointer in
