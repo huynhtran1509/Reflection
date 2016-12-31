@@ -2,7 +2,7 @@ import XCTest
 @testable import Reflection
 
 public class InternalTests : XCTestCase {
-    
+
     func testShallowMetadata() {
         func testShallowMetadata<T>(type: T.Type, expectedKind: Metadata.Kind) {
             let shallowMetadata = Metadata(type: type)
@@ -25,7 +25,7 @@ public class InternalTests : XCTestCase {
             XCTAssert(metadata.nominalTypeDescriptor.numberOfFields == 3)
             XCTAssert(metadata.nominalTypeDescriptor.fieldNames == ["firstName", "lastName", "age"])
             XCTAssertNotNil(metadata.nominalTypeDescriptor.fieldTypesAccessor)
-            XCTAssert(metadata.fieldTypes! == [String.self, String.self, Int.self] as [Any.Type])
+            XCTAssert(metadata.fieldTypes == [String.self, String.self, Int.self] as [Any.Type])
         }
         if let metadata = Metadata.Struct(type: Person.self) {
             testMetadata(metadata: metadata, expectedName: "Person")

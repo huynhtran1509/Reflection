@@ -12,9 +12,10 @@ extension Array where Element : UTF8Initializable {
         while let string = Element(validatingUTF8: pointer) {
             strings.append(string)
             while pointer.pointee != 0 {
-                pointer.advance()
+                pointer = pointer.advanced(by: 1)
             }
-            pointer.advance()
+
+            pointer = pointer.advanced(by: 1)
             guard pointer.pointee != 0 else { break }
         }
         self = strings

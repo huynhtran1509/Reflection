@@ -30,12 +30,14 @@ public extension Metadata {
                 guard pointer.pointee != 32 else {
                     labels.append(string.isEmpty ? nil : string)
                     string = ""
-                    pointer.advance()
+                    pointer = pointer.advanced(by: 1)
+
                     continue
                 }
 
                 string.append(String(UnicodeScalar(UInt8(bitPattern: pointer.pointee))))
-                pointer.advance()
+
+                pointer = pointer.advanced(by: 1)
             }
 
             return labels
