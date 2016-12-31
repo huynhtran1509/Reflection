@@ -48,6 +48,27 @@ public class InternalTests : XCTestCase {
         }
     }
 
+    func testEnumMetadata() {
+        guard let metadata = Metadata.Enum(type: TestEnum.self) else {
+            return XCTFail()
+        }
+
+        XCTAssertEqual(3, metadata.cases.count)
+
+        for enumCase in metadata.cases {
+            switch (enumCase.indirect, enumCase.name, enumCase.type) {
+            case (false, "nonPayloadCase", nil):
+                continue
+            case let (false, "payload", type?) where type == Int.self:
+                continue
+            case let (true, "indirectPayload", type?) where type == TestEnum.self:
+                continue
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     func testSuperclass() {
         guard let metadata = Metadata.Class(type: SubclassedPerson.self) else {
             return XCTFail()

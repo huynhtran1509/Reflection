@@ -17,6 +17,12 @@ func == (lhs: Person, rhs: Person) -> Bool {
     return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName && lhs.age == rhs.age
 }
 
+enum TestEnum {
+    case nonPayloadCase
+    case payload(Int)
+    indirect case indirectPayload(TestEnum)
+}
+
 class ReferencePerson : Equatable {
     var firstName: String
     var lastName: String
@@ -37,17 +43,17 @@ class ReferencePerson : Equatable {
 
 class SubclassedPerson : ReferencePerson {
     var hobby: String
-    
+
     required init() {
         self.hobby = ""
         super.init()
     }
-    
+
     init(firstName: String, lastName: String, age: Int, hobby: String) {
         self.hobby = hobby
         super.init(firstName: firstName, lastName: lastName, age: age)
     }
-    
+
 }
 
 func == (lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
@@ -55,7 +61,7 @@ func == (lhs: ReferencePerson, rhs: ReferencePerson) -> Bool {
 }
 
 public class PublicTests : XCTestCase {
-    
+
     func testConstructType() throws {
         for _ in 0..<1000 {
             let person: Person = try construct {
@@ -65,7 +71,7 @@ public class PublicTests : XCTestCase {
             XCTAssert(person == other)
         }
     }
-    
+
     func testConstructAnyType() throws {
         for _ in 0..<1000 {
             let type: Any.Type = Person.self
@@ -129,7 +135,7 @@ public class PublicTests : XCTestCase {
         XCTAssert(person.lastName == lastName)
         XCTAssert(person.age == age)
     }
-    
+
     func testPropertiesForSubclass() throws {
         var props: [Property] = []
         let person = SubclassedPerson(firstName: "Brad", lastName: "Hilton", age: 27, hobby: "Golf")
@@ -201,7 +207,7 @@ public class PublicTests : XCTestCase {
         testMemoryProperties(String.self)
         testMemoryProperties(Array<Int>.self)
     }
-    
+
     func testCString() {
         do {
             let firstName = "Brad".withCString { return String(cString: $0) }
@@ -217,7 +223,7 @@ public class PublicTests : XCTestCase {
             XCTAssert(indirectStorage["lastName"]! == person.lastName)
         } catch {}
     }
-    
+
     func testConstructionErrors() {
         do {
             let _: Person = try construct(dictionary: [:])
@@ -233,7 +239,7 @@ public class PublicTests : XCTestCase {
             XCTFail()
         }
     }
-    
+
 }
 
 extension PublicTests {
